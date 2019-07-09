@@ -15,6 +15,8 @@ SFE_BMP180 Bmp180;
 TwoWire Wire3(PIN_A4, PIN_A5);
 //void SystemClock_Config(void);
 
+HardwareSerial Esp8266(USART1);
+
 double baseline;
 
 // Blinks LED
@@ -26,12 +28,32 @@ void blink()
   delay(166);
 }
 
+void EspReset()
+{
+  pinMode(PA10, OUTPUT);    // reset pin
+  pinMode(PA8, OUTPUT);     // esp enable pin
+  
+  digitalWrite(PA10, HIGH); // reset pin high
+  digitalWrite(PA8, HIGH); // reset pin high
+  delay(100);
+
+  digitalWrite(PA8, LOW);   // ESP Ena low
+
+  digitalWrite(PA10, HIGH); // reset pin high
+  delay(300);
+  digitalWrite(PA10, LOW); // reset pin low
+  delay(300);
+  digitalWrite(PA10, HIGH); // reset pin high
+
+}
 void setup()
 {
   // char buffer[80];
  // Initialize Serial
   Serial.begin(9600);
   while (!Serial); 
+
+  Esp8266.begin(115200);
   
   // SystemClock_Config();
  /* Initialize all configured peripherals */
@@ -62,6 +84,8 @@ void setup()
   float hG = (29.92 * baseline) / 1013.25;
   Serial.print(hG, 2);
   Serial.println(" Hg");
+
+  EspReset();
 
   // Print header
   Serial.println("Voltage, V\tCurrent, A\tFull Capacity, mAh\tRemaining Capacity, mAh\tState of Charge, %\tInput Voltage, V\tTemperature, C\tTime, HH:MM:SS\tDate, DD/MM/YY\tTemp");
@@ -135,75 +159,26 @@ void loop()
 
   // Wait between reads
   delay(2000);
+  char ch = 0;  
+  Serial.print("Weather> ");
+  while(ch != 'Q') 
+  {
+    while(Esp8266.available())
+    {
+      Serial.write(Esp8266.read());
+    }
+    while(Serial.available())
+    {
+      ch = Serial.read();
+      Serial.write(ch);
+      Esp8266.write(ch);
+    }
+  }
+  Serial.println(" ");
   // Sleeps power for 4 seconds
   // Es2.sleepSeconds(4);
 }
 
-// /**
-//   * @brief System Clock Configuration
-//   * @retval None
-//   */
-// void SystemClock_Config(void)
-// {
-//   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-//   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-//   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
-
-//   /** Initializes the CPU, AHB and APB busses clocks 
-//   */
-//   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-//   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-//   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-//   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-//   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-//   RCC_OscInitStruct.PLL.PLLM = 1;
-//   RCC_OscInitStruct.PLL.PLLN = 10;
-//   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
-//   RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
-//   RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
-// //  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-// //  {
-// //    Error_Handler();
-// //  }
-//   /** Initializes the CPU, AHB and APB busses clocks 
-//   */
-//   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-//                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-//   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-//   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-//   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-//   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-
-//   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
-//   {
-//     Error_Handler();
-//   }
-//   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_LPTIM1
-//                               |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_I2C3
-//                               |RCC_PERIPHCLK_ADC;
-//   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
-//   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_PCLK1;
-//   PeriphClkInit.I2c3ClockSelection = RCC_I2C3CLKSOURCE_PCLK1;
-//   PeriphClkInit.Lptim1ClockSelection = RCC_LPTIM1CLKSOURCE_HSI;
-//   PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_PLLSAI1;
-//   PeriphClkInit.PLLSAI1.PLLSAI1Source = RCC_PLLSOURCE_HSI;
-//   PeriphClkInit.PLLSAI1.PLLSAI1M = 1;
-//   PeriphClkInit.PLLSAI1.PLLSAI1N = 8;
-//   PeriphClkInit.PLLSAI1.PLLSAI1P = RCC_PLLP_DIV7;
-//   PeriphClkInit.PLLSAI1.PLLSAI1Q = RCC_PLLQ_DIV2;
-//   PeriphClkInit.PLLSAI1.PLLSAI1R = RCC_PLLR_DIV2;
-//   PeriphClkInit.PLLSAI1.PLLSAI1ClockOut = RCC_PLLSAI1_ADC1CLK;
-//   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
-//   {
-//     Error_Handler();
-//   }
-//   /** Configure the main internal regulator output voltage 
-//   */
-//   if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
-//   {
-//     Error_Handler();
-//   }
-// }
 
 double getPressure()
 {
