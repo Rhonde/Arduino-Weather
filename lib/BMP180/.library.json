@@ -31,12 +31,8 @@
             "name": "SparkFun Electronics"
         }
     ], 
-    "repository": {
-        "type": "git", 
-        "url": "https://github.com/sparkfun/BMP180_Breakout_Arduino_Library"
-    }, 
-    "homepage": "https://github.com/sparkfun/BMP180_Breakout", 
-    "export": {
+    
+        "export": {
         "include": null, 
         "exclude": [
             "extras", 

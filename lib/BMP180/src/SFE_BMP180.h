@@ -22,17 +22,17 @@
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
-#include <Wire.h>
 #else
 #include "WProgram.h"
 #endif
+#include "Wire.h"
 
 class SFE_BMP180
 {
 	public:
 		SFE_BMP180(); // base type
 
-		char begin(TwoWire *wire);
+		char begin(TwoWire *_i2c);
 			// call pressure.begin() to initialize BMP180 before use
 			// returns 1 if success, 0 if failure (bad component or I2C bus shorted?)
 		
@@ -107,7 +107,7 @@ class SFE_BMP180
 		uint16_t AC4,AC5,AC6; 
 		double c5,c6,mc,md,x0,x1,x2,y0,y1,y2,p0,p1,p2;
 		char _error;
-		TwoWire *bmpWire;
+		TwoWire *bmpI2C;
 };
 
 #define BMP180_ADDR 0x77 // 7-bit address

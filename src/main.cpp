@@ -37,7 +37,7 @@ void EspReset()
   digitalWrite(PA8, HIGH); // reset pin high
   delay(100);
 
-  digitalWrite(PA8, LOW);   // ESP Ena low
+  // digitalWrite(PA8, LOW);   // ESP Ena low
 
   digitalWrite(PA10, HIGH); // reset pin high
   delay(300);

@@ -15,6 +15,8 @@
 	Our example code uses the "beerware" license. You can do anything
 	you like with this code. No really, anything. If you find it useful,
 	buy me a (root) beer someday.
+
+	Modified to take i2c parameter so that it can share the i2c bus
 */
 
 #include <SFE_BMP180.h>
@@ -23,21 +25,21 @@
 #include <math.h>
 
 
-
 SFE_BMP180::SFE_BMP180()
 // Base library type
 {
 }
 
 
-char SFE_BMP180::begin(TwoWire *wire)
+char SFE_BMP180::begin(TwoWire *_i2c)
 // Initialize library for subsequent pressure measurements
 {
 	double c3,c4,b1;
 	
-	// wire is already initialized
-	bmpWire = wire;
+	// Start up the Arduino's "wire" (I2C) library:
 	
+	//bmpI2C->begin();
+	bmpI2C = _i2c;
 
 	// The BMP180 includes factory calibration data stored on the device.
 	// Each device has different numbers, these must be retrieved and
@@ -72,7 +74,7 @@ char SFE_BMP180::begin(TwoWire *wire)
 		// AC1 = 7911; AC2 = -934; AC3 = -14306; AC4 = 31567; AC5 = 25671; AC6 = 18974;
 		// VB1 = 5498; VB2 = 46; MB = -32768; MC = -11075; MD = 2432;
 
-		
+		/*
 		Serial.print("AC1: "); Serial.println(AC1);
 		Serial.print("AC2: "); Serial.println(AC2);
 		Serial.print("AC3: "); Serial.println(AC3);
@@ -84,7 +86,7 @@ char SFE_BMP180::begin(TwoWire *wire)
 		Serial.print("MB: "); Serial.println(MB);
 		Serial.print("MC: "); Serial.println(MC);
 		Serial.print("MD: "); Serial.println(MD);
-		
+		*/
 		
 		// Compute floating-point polynominals:
 
@@ -178,18 +180,18 @@ char SFE_BMP180::readBytes(unsigned char *values, char length)
 // values: external array to hold data. Put starting register in values[0].
 // length: number of bytes to read
 {
-	int16_t x;
+	char x;
 
-	bmpWire->beginTransmission(BMP180_ADDR);
-	bmpWire->write(values[0]);
-	_error = bmpWire->endTransmission();
+	bmpI2C->beginTransmission(BMP180_ADDR);
+	bmpI2C->write(values[0]);
+	_error = bmpI2C->endTransmission();
 	if (_error == 0)
 	{
-		bmpWire->requestFrom(BMP180_ADDR,length);
-		while(bmpWire->available() != length) ; // wait until bytes are ready
-		for(x=0; x < length; x++)
+		bmpI2C->requestFrom(BMP180_ADDR,length);
+		while(bmpI2C->available() != length) ; // wait until bytes are ready
+		for(x=0;x<length;x++)
 		{
-			values[x] = bmpWire->read();
+			values[x] = bmpI2C->read();
 		}
 		return(1);
 	}
@@ -202,9 +204,11 @@ char SFE_BMP180::writeBytes(unsigned char *values, char length)
 // values: external array of data to write. Put starting register in values[0].
 // length: number of bytes to write
 {
-	bmpWire->beginTransmission(BMP180_ADDR);
-	bmpWire->write(values,length);
-	_error = bmpWire->endTransmission();
+	char x;
+	
+	bmpI2C->beginTransmission(BMP180_ADDR);
+	bmpI2C->write(values,length);
+	_error = bmpI2C->endTransmission();
 	if (_error == 0)
 		return(1);
 	else

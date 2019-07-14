@@ -6,6 +6,11 @@
         {
             "name": "Win32",
             "includePath": [
+                "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/include",
+                "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/src",
+                "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/lib/NightShade/src",
+                "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/lib/BMP180/src",
+                "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/libraries/Wire/src",
                 "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/cores/arduino/avr",
                 "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32",
                 "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32/LL",
@@ -22,9 +27,6 @@
                 "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/system/Drivers/CMSIS/Device/ST/STM32L4xx/Source/Templates/gcc",
                 "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/cores/arduino",
                 "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/variants/NUCLEO_L476RG",
-                "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/lib/NightShade/src",
-                "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/.piolibdeps/Sparkfun BMP180_ID5684/src",
-                "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/libraries/Wire/src",
                 "C:/Users/Arche/.platformio/lib/Sparkfun BMP180_ID5684/src",
                 "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/libraries/EEPROM/src",
                 "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/libraries/IWatchdog/src",
@@ -33,14 +35,17 @@
                 "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/libraries/SPI/src",
                 "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/libraries/Servo/src",
                 "C:/Users/Arche/.platformio/packages/tool-unity",
-                "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/include",
-                "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/src",
                 ""
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": "${workspaceRoot}/.vscode/.browse.c_cpp.db",
                 "path": [
+                    "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/include",
+                    "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/src",
+                    "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/lib/NightShade/src",
+                    "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/lib/BMP180/src",
+                    "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/libraries/Wire/src",
                     "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/cores/arduino/avr",
                     "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32",
                     "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32/LL",
@@ -57,9 +62,6 @@
                     "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/system/Drivers/CMSIS/Device/ST/STM32L4xx/Source/Templates/gcc",
                     "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/cores/arduino",
                     "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/variants/NUCLEO_L476RG",
-                    "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/lib/NightShade/src",
-                    "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/.piolibdeps/Sparkfun BMP180_ID5684/src",
-                    "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/libraries/Wire/src",
                     "C:/Users/Arche/.platformio/lib/Sparkfun BMP180_ID5684/src",
                     "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/libraries/EEPROM/src",
                     "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/libraries/IWatchdog/src",
@@ -68,13 +70,11 @@
                     "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/libraries/SPI/src",
                     "C:/Users/Arche/.platformio/packages/framework-arduinoststm32/libraries/Servo/src",
                     "C:/Users/Arche/.platformio/packages/tool-unity",
-                    "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/include",
-                    "c:/Users/Arche/Documents/PlatformIO/Projects/Arduino-Weather/src",
                     ""
                 ]
             },
             "defines": [
-                "PLATFORMIO=30607",
+                "PLATFORMIO=40000",
                 "STM32L476xx",
                 "STM32L4xx",
                 "ARDUINO=10808",
